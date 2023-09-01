@@ -1,12 +1,21 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { Header } from '@components/Header';
 import { Container, Content, Icon } from './styles';
 import { Highlight } from '@components/Highlight';
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
+import { RootList } from 'src/@types/navigation';
 
-interface NewGroupProps {}
+interface NewGroupProps {
+  navigation: NativeStackNavigationProp<RootList, 'new'>
+}
 
-export function NewGroup({  }: NewGroupProps) {
+export function NewGroup({ navigation: { navigate } }: NewGroupProps) {
+  function handleNew() {
+    navigate('players', { group: 'Ah AH' })
+  }
+
   return (
     <Container>
       <Header showBackButton />
@@ -21,7 +30,11 @@ export function NewGroup({  }: NewGroupProps) {
 
         <Input placeholder='Nome da turma' />
 
-        <Button title='Criar' style={{ marginTop: 20 }} />
+        <Button
+          title='Criar'
+          style={{ marginTop: 20 }}
+          onPress={handleNew}
+        />
       </Content>
     </Container>
   );
