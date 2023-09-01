@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { FlatList } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
 
 import { Header } from '@components/Header';
 import { Highlight } from '@components/Highlight';
@@ -11,10 +13,14 @@ import { PlayerCard } from '@components/PlayerCard';
 import { ListEmpty } from '@components/ListEmpty';
 
 import { Container, Form, HeaderList, NumberOfPlayers } from './styles';
+import { RootList } from 'src/@types/navigation';
 
-interface PlayersProps {}
+interface PlayersProps {
+  // navigation: NativeStackNavigationProp<RootList, 'players'>
+  route: RouteProp<RootList, 'players'>
+}
 
-export function Players({  }: PlayersProps) {
+export function Players({ route }: PlayersProps) {
   const [team, setTeam] = useState('Time A')
   const [players, setPlayers] = useState(['Sean Anthony', 'Gaveta'])
 
@@ -23,7 +29,7 @@ export function Players({  }: PlayersProps) {
       <Header showBackButton />
 
       <Highlight
-        title='Nome da turma'
+        title={route.params.group}
         subtitle='adicione a galera e separe os times'
       />
 

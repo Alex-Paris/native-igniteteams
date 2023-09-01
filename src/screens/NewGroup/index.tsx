@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { Header } from '@components/Header';
@@ -12,8 +13,10 @@ interface NewGroupProps {
 }
 
 export function NewGroup({ navigation: { navigate } }: NewGroupProps) {
+  const [group, setGroup] = useState('')
+
   function handleNew() {
-    navigate('players', { group: 'Ah AH' })
+    navigate('players', { group })
   }
 
   return (
@@ -28,7 +31,7 @@ export function NewGroup({ navigation: { navigate } }: NewGroupProps) {
           subtitle='crie a turma para adicionar as pessoas'
         />
 
-        <Input placeholder='Nome da turma' />
+        <Input placeholder='Nome da turma' onChangeText={setGroup} />
 
         <Button
           title='Criar'
