@@ -17,6 +17,7 @@ import { PlayerStorageDTO } from 'src/dtos/PlayerStorageDTO';
 import { playerAddByGroup } from '@storage/player/playerAddByGroup';
 import { AppError } from '@utils/AppError';
 import { playersGetByGroupAndTeam } from '@storage/player/playersGetByGroupAndTeam';
+import { playersRemoveByGroup } from '@storage/player/playersRemoveByGroup';
 
 interface PlayersProps {
   // navigation: NativeStackNavigationProp<RootList, 'players'>
@@ -55,6 +56,20 @@ export function Players({ route }: PlayersProps) {
         Alert.alert('Nova pessoa', error.message)
       } else {
         Alert.alert('Nova pessoa', 'Não foi possível adicionar')
+        console.log(error)
+      }
+    }
+  }
+
+  async function handleRemovePlayer(playerName: string) {
+    try {
+      await playersRemoveByGroup(route.params.group, playerName)
+      fetchPlayersByTeam()
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Remover pessoa', error.message)
+      } else {
+        Alert.alert('Remover pessoa', 'Não foi possível deletar')
         console.log(error)
       }
     }
@@ -118,7 +133,7 @@ export function Players({ route }: PlayersProps) {
         data={players}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <PlayerCard name={item.name} onRemove={() => {}} />
+          <PlayerCard name={item.name} onRemove={() => handleRemovePlayer(item.name)} />
         )}
         contentContainerStyle={[
           { paddingBottom: 100 },
